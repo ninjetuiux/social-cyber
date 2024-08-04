@@ -3,13 +3,11 @@ import Image from 'next/image'
 import React, { useState, useEffect } from 'react'
 import Typed from 'typed.js';
 // import IconsShow from './IconsShow/IconsShow';
-import { useSelector, useDispatch } from 'react-redux';
 import { Link as ScrollLink } from 'react-scroll';
-import { toggleSmallScreen } from '@/app/reduxToolkit/features/SmallScreenSlice';
+import { useToggledContext } from '@/app/context/ToggledContext';
 
 export default function Hero() {    
-    const isToggled = useSelector(state => state.navbar.isToggled);
-    const dispatch = useDispatch();
+    const { isToggled } = useToggledContext();
     const [isSmallScreen, setIsSmallScreen] = useState(false); // Local state for responsiveness
   
     useEffect(() => {
@@ -23,11 +21,7 @@ export default function Hero() {
       return () => window.removeEventListener('resize', handleResize);  
   
     }, []);
-  
-    useEffect(() => {
-      // Update Redux state whenever the local state changes
-      dispatch(toggleSmallScreen());
-    }, [isSmallScreen, dispatch]);
+
     useEffect(() => {
         const options = {
         strings: ['ברוך הבא ל - Social-Cyber.co.il', 'מומחים בשיחזור חשבונות סושיאל שנפרצו/נחסמו/הושבתו', 'אנו מספקים שירות עבור: אינסטגרם, פייסבוק, גוגל מודעות וגם וואטסאפ!'],

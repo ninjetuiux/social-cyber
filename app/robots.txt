@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Disallow specific paths you don't want indexed
+Disallow: /private/
+Disallow: /admin/
+
+# Point to your sitemap
+Sitemap: https://www.social-cyber.co.il/sitemap.xml
