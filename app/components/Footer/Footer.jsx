@@ -57,7 +57,7 @@ export const Footer = () => {
       }, []);
 
   return (
-    <div id='Footer' className={isMobile ? `w-screen flex-col py-10` : `w-screen flex justify-center p-0 bg-gray-100 py-10`}>
+    <div id='Footer' className={isMobile ? `max-x-max flex-col py-10` : `max-x-max flex justify-center p-0 bg-gray-100 py-10`}>
       <div className={isMobile ? `flex-col justify-center items-center text-center` : `relative flex w-[80%] lg:p-10 lg:gap-5 justify-between p-5 font-sans`}>
         <div className={isMobile ? `text-center` : ``}>
             <div className="lg:text-right mb-5 text-center">

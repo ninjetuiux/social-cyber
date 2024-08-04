@@ -40,17 +40,23 @@ export default function Navbar({ }) {
         (isScrolled || wasScrolled) ? 'bg-white' : 'bg-[#FB5958] bg-gradient-to-r from-[#FB5958] to-[#F89B29]' 
       }`}
     >
-        <div className="w-screen flex justify-between shadow-gray-100 items-center flex-1 h-16">
+        <div className="max-x-max flex justify-between shadow-gray-100 items-center flex-1 h-16">
             <div className="flex-start flex-0.2 max-h-16 flex-shrink">
-                <ScrollLink href='/'><Image
+            <ScrollLink 
+                    to="home"
+                    smooth={true}
+                    duration={1000}
+                    href='/#home'
+                    className="cursor-pointer z-20">
+                <Image
                 src={'/website-logo.png'}
                 alt='navbar-logo'
-                layout='responsive'
                 fit='cover'
                 width={250}
                 height={100}
-                style={{maxHeight:'70px', maxWidth: '250px', scale: 1.3 }}
-                /></ScrollLink>
+                // style={{maxHeight:'70px', maxWidth: '250px', scale: 1.3 }}
+                />
+            </ScrollLink>
             </div>
             <div className="hidden lg:flex lg:flex-0.8 justify-end text-center flex-grow items-center">
                 <ul className="flex flex-row-reverse gap-5 text-center justify-center lg:pr-16">
@@ -64,10 +70,10 @@ export default function Navbar({ }) {
                     </ScrollLink>
 
                     <ScrollLink 
-                    to="#services"
+                    to="services"
                     smooth={true}
                     duration={1000}
-                    href='/services'
+                    href='/#services'
                     className="cursor-pointer">
                         <li>השירותים שלנו</li>
                     </ScrollLink>

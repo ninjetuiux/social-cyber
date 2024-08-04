@@ -7,7 +7,7 @@ import Service from './Service/Service'
 const OurServicesCards = [{
   title: 'פתרון הבעיה',
   description: 'אנחנו נפתור את הבעיה עבורכם ונחזיר את החשבון לשימוש',
-  image: '/services/issue-Solved.png'
+  image: '/services/issue-solved.png'
   },{
   title: 'הכנת תוכנית פעולה',
   description: 'אנחנו נכין תוכנית פעולה מותאמת אישית לכל לקוח ולכל בעיה',
@@ -19,8 +19,8 @@ const OurServicesCards = [{
 }]
 export default function Services() {
   return (
-    <div id='services' className="w-screen">
-      <div className="h-[150px] w-screen relative">
+    <div id='services' className="max-x-max overflow-hidden">
+      <div className="h-[150px] max-x-max relative">
         <div className="absolute inset-0 bg-gradient-to-t from-[#01273a] via-[#01273a]/50 to-transparent"></div>
         <div className="bg-[#FB5958] bg-gradient-to-r from-[#FB5958] to-[#F89B29] h-full"></div> 
         

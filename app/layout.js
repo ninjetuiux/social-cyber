@@ -9,7 +9,7 @@ import Footer from "./components/Footer/Footer";
 function RootLayout({ children }) {
   return (
     <html lang="en">
-      <body>
+      <body style={{margin: 0, padding: 0, boxSizing: 'border-box'}}>
         <Provider store={store}>
           <Navbar />
           {children}

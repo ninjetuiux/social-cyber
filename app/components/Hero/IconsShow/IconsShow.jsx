@@ -1,82 +1,74 @@
+'use client'
 import Image from 'next/image'
-import React, { useEffect, useRef } from 'react'
 
-
-const logoItems = [{
-    logo1: {
+const logoItems = [
+  {
+    id: 1,
     src: '/social-logos/facebook.png',
     alt: 'social-media-companies-logo.png',
-    },
-    logo2: {
+  },
+  {
+    id: 2,
     src: '/social-logos/instagram.png',
     alt: 'social-media-companies-logo.png',
-    },
-    logo3: {
+  },
+  {
+    id: 3,
     src: '/social-logos/whatsapp.png',
     alt: 'social-media-companies-logo.png',
-    },
-    logo4: {
+  },
+  {
+    id: 4,
     src: '/social-logos/google.png',
     alt: 'social-media-companies-logo.png',
-    },
-    logo5: {
+  },
+  {
+    id: 5,
     src: '/social-logos/x.png',
-    // alt: 'social-media-companies-logo.png',
-    },
-    logo6: {
+    alt: 'social-media-companies-logo.png',
+  },
+  {
+    id: 6,
     src: '/social-logos/twitch.png',
     alt: 'social-media-companies-logo.png',
-    },
-    logo7: {
+  },
+  {
+    id: 7,
     src: '/social-logos/pinterest.png',
     alt: 'social-media-companies-logo.png',
-    },
-    logo8: {
+  },
+  {
+    id: 8,
     src: '/social-logos/reddit.png',
     alt: 'social-media-companies-logo.png',
-    },
-    logo9: {
+  },
+  {
+    id: 9,
     src: '/social-logos/youtube.png',
     alt: 'social-media-companies-logo.png',
-    },
-    logo10: {
+  },
+  {
+    id: 10,
     src: '/social-logos/dribble.png',
     alt: 'social-media-companies-logo.png',
-    },
-}]
+  },
+];
 export default function IconsShow() {
-    const duplicatedLogoItems = [...Object.values(logoItems[0]), ...Object.values(logoItems[0])];
 
-    const containerRef = useRef(null);
-  
-    useEffect(() => {
-      if (containerRef.current) {
-        const totalWidth = Array.from(containerRef.current.children).reduce((acc, child) => {
-          return acc + child.offsetWidth;
-        }, 0);
-        containerRef.current.style.width = `${totalWidth}px`;
-      }
-    }, []);
-  return (
-    <div className="animate-infinite-scroll whitespace-nowrap flex absolute w-full max-w-max overflow-hidden bottom-0 items-center" ref={containerRef}>
-    {duplicatedLogoItems.map((logo, index) => (
-        <Image
-            key={index} // Add a unique key for each image
-            layout='fixed'
-            alt={logo.alt}
-            width={150}
-            height={150}
-            {...logo} 
-            className='inline-block flex-shrink-0 max-w-max'
-            style={{
-              '--delay': `${(index * (30 / duplicatedLogoItems.length))}s`,
-              '--translate': `${-(index * (100 / duplicatedLogoItems.length))}%`,
-              animationDelay: `var(--delay)`,
-              transform: `translateX(var(--translate))`,
-              maxWidth: `max-content`
-            }}
-        />
-    ))}
-</div>
-  )
+    return (
+      <div className='slider-container max-x-max overflow-hidden bg-[#FB5958] bg-gradient-to-r from-[#FB5958] to-[#F89B29]'>
+        <div className='slider bg-transparent'>
+          {logoItems.map((logoItem, index) => (
+            <div key={index} className='logo-item bg-transparent'>
+              <Image src={logoItem.src} alt={logoItem.alt} width={180} height={180} />
+            </div>
+          ))}
+          {logoItems.map((logoItem, index) => (
+            <div key={index + logoItems.length} className='logo-item bg-transparent'>
+              <Image src={logoItem.src} alt={logoItem.alt} width={180} height={180} />
+            </div>
+          ))}
+        </div>
+      </div>
+    );
 }

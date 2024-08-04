@@ -72,12 +72,12 @@ const ContactUs = ({AddContactToMailchimp}) => {
   };
 
   useEffect(() => {
-    console.log(myFormState);
+    // console.log(myFormState);
   }, [myFormState]);
 
   return (
-    <div id='ContactUs' className="w-screen overflow-hidden py-10">
-      <div className='flex-col h-26 w-screen items-center'>
+    <div id='ContactUs' className="max-x-max overflow-hidden py-10">
+      <div className='flex-col h-26 max-x-max items-center  mb-10'>
         <div className='w-full'>
           <h1 className="text-center text-4xl font-sans font-bold p-2">צור קשר</h1>
           <p className="text-center text-lg font-sans">!צור קשר עוד היום ונחזיר את החשבון שלך לידיים בטוחות</p>  
@@ -100,7 +100,7 @@ const ContactUs = ({AddContactToMailchimp}) => {
               <div key={key} className={isSmallScreen ? '' : "min-w-[350px]"}>
                 {input.type === 'select' ? (
                   <select
-                    value={myFormState[key] ? myFormState[key] && console.log(myFormState[key], 'this is the FormState[Key] value'): ''}
+                    value={myFormState[key] ? myFormState[key] : ''}
                     onChange={(e) => handleChange(key, e.target.value)}
                     name={key}
                     style={{ backgroundColor: "transparent" }}
@@ -125,7 +125,7 @@ const ContactUs = ({AddContactToMailchimp}) => {
                       <option
                         key={optionValue}
                         value={optionValue}
-                        className='bg-white font-sans p-3 hover:bg-white'
+                        className='bg-white font-sans p-3 hover:bg-white text-right'
                         style={{ backgroundColor: "white", appearance: 'none' }}
                         dir='RTL'
                       >

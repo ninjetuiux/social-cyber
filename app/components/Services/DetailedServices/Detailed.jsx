@@ -265,8 +265,8 @@ export default function Detailed() {
     handleTitleClick(0); // animate the first one by default
   }, [windowWidth]);
 
-  const handleTitleClick = (index) => {
-    event.preventDefault()
+  const handleTitleClick = (index, e) => {
+    if (e) e.preventDefault()
     const paragraphs = paragraphRefs.current;
     Object.keys(paragraphs).forEach((key) => {
       if (key !== index.toString()) {
@@ -293,7 +293,7 @@ export default function Detailed() {
   };
 
   return (
-    <div id='q&a' className="max-w-screen min-h-content bg-[#01273a] p-5 font-sans">
+    <div id='q&a' className="max-x-max min-h-content bg-[#01273a] p-5 font-sans">
       <div className="relative rounded-lg p-1 ring-2 w-full flex flex-grow bg-[#01273a]">
         {
           windowWidth > 768 ? 
@@ -303,7 +303,7 @@ export default function Detailed() {
               <div key={index} 
               className={`${activeIndex === index? 'flex right-0' : 'hidden'} flex-grow text-right top-0 px-5 flex justify-end py-2 relative`}
               >
-              <p
+              <div
                 ref={(el) => (paragraphRefs.current[index] = el)}
                 style={{
                   // position: 'absolute',
@@ -315,7 +315,7 @@ export default function Detailed() {
                 className=""
               >
                 {item.paragraph}
-              </p>
+              </div>
               </div>
             ))}
           </div>:<></>
@@ -325,7 +325,7 @@ export default function Detailed() {
           <div className=''>
             {BlobItems.map((item, index) => (
               <div key={index} className={`flex flex-col flex-shrink-0 lg:gap-0 gap-2 whitespace-wrap p-3 font-sans min-h-[70px]  shadow-sm rounded-lg lg:m-3 ${activeIndex === index? ' text-[#01273a]' : ''}`}>
-                <div className="rounded-md w-full" onClick={() => handleTitleClick(index)}>
+                <div className="rounded-md w-full" onClick={(e) => handleTitleClick(index, e)}>
                   <div className={`${activeIndex === index ? 'bg-[#C3FA42]' : ''} rounded-lg p-5 cursor-pointer`}>  
                       <h1 dir='rtl' className="text-md font-bold text-right">{item.title}</h1>
                       <p dir='rtl' className="text-sm text-right">{item.description}</p>
@@ -334,7 +334,7 @@ export default function Detailed() {
                       !isSmallScreen ? <></> : 
 
                     <div dir='rtl' className={isSmallScreen ? 'flex flex-col flex-shrink-0 text-right' : 'hidden'}>
-                      <p
+                      <div
                         dir='rtl'
                         ref={(el) => (paragraphRefs.current[index] = el)}
                         style={{
@@ -346,7 +346,7 @@ export default function Detailed() {
                         className={isSmallScreen ? 'py-2 lg:py-0 bg-white rounded-lg p-3 mt-2' : 'hidden'}
                       >
                         {item.paragraph}
-                      </p>  
+                      </div>  
                     </div>
                     }
                   </div>

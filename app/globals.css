@@ -3,3 +3,29 @@
 @tailwind utilities;
 
 
+@keyframes slide-left {
+    0% {
+      transform: translateX(0);
+    }
+    100% {
+      transform: translateX(-50%);
+    }
+  }
+  .slider-container {
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+    z-index: 10;
+    bottom: 0;
+  }
+  
+  .slider {
+    display: flex;
+    width: calc(180px * 20); /* Adjust this based on the number of logos and their width */
+    animation: slide-left 10s linear infinite;
+  }
+  
+  .logo-item {
+    flex: 0 0 auto;
+    width: 180px;
+  }
