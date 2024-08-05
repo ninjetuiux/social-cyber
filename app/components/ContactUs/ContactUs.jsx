@@ -2,6 +2,11 @@
 
 import Image from "next/legacy/image";
 import React, { useEffect, useState } from 'react';
+import dynamic from 'next/dynamic';
+const GoogleMap = dynamic(() => import('../GoogleMap/GoogleMap'), { 
+  ssr: false, // This ensures the component is only loaded on the client-side
+});
+import { useSmallScreenContext } from "@/app/context/SmallScreenContext";
 
 
 const FormInputsGroup = {
@@ -44,7 +49,7 @@ const FormInputsGroup = {
   },
 };
 
-const ContactUs = ({AddContactToMailchimp}) => {
+const ContactUs = ({AddContactToMailchimp, googleMapsApi}) => {
   const [myFormState, setMyFormState] = useState({
     EMAIL: '',
     FNAME: '',
@@ -53,7 +58,7 @@ const ContactUs = ({AddContactToMailchimp}) => {
     MMERGE6: '',
     MMERGE7: ''
   });
-  const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth < 768);
+  const { isSmallScreen,setIsSmallScreen } = useSmallScreenContext();
 
   useEffect(() => {
     const handleResize = () => {
@@ -66,7 +71,7 @@ const ContactUs = ({AddContactToMailchimp}) => {
     return () => {
       window.removeEventListener('resize', handleResize);
     };
-  }, []);
+  }, [isSmallScreen, setIsSmallScreen]);
   const handleChange = (key, value) => {
     setMyFormState((prev) => ({ ...prev, [key]: value }));
   };
@@ -85,16 +90,11 @@ const ContactUs = ({AddContactToMailchimp}) => {
       <div className='border-b-4 w-[50%]' />
       </div>
       <div className={isSmallScreen ? 'flex-col justify-center items-center text-center' : 'w-full flex flex-row-reverse lg:flex-1'}>
-        <section className="w-full flex-[0.5]">
-          <Image
-            src="/contactUs/contactUs.jpg"
-            alt="contact-us"
-            fill
-            width={1920}
-            height={1080}
-          />
+        <section className="w-full justify-center flex-[0.5] relative">
+            <GoogleMap />
+            {/* 32.9696014704144, 35.551171612167984 */}  
         </section>
-        <section className={isSmallScreen ? 'justify-center w-full flex-1 items-center' : 'w-full flex-[0.5] top-0 text-end flex justify-end items-center'}>
+        <section className={isSmallScreen ? 'justify-center mt-5 w-full flex-1 items-center' : 'w-full flex-[0.5] top-0 text-end flex justify-end items-center'}>
           <form action={AddContactToMailchimp} className={isSmallScreen ? 'justify-center flex-col items-center w-[90%] mx-auto' : '2xl:w-[550px] w-[90%] mx-auto'}>
             {Object.entries(FormInputsGroup).map(([key, input]) => (
               <div key={key} className={isSmallScreen ? '' : "min-w-[350px]"}>

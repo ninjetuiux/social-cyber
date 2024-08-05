@@ -33,7 +33,7 @@ export default function NavLinks() {
     };
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+  }, [isScrolled]);
 
   return (
     <>

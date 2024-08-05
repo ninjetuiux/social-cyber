@@ -5,6 +5,8 @@ import Footer from "./components/Footer/Footer";
 import { ScrollProvider } from './context/ScrollContext';
 import ScrollHandler from "./components/ScrollHandler/ScrollHandler";
 import { ToggledProvider } from "./context/ToggledContext";
+import { SmallScreenProvider } from "./context/SmallScreenContext";
+
 export const metadata = {
   title: 'Social Cyber',
   description: 'Social Cyber is a digital agency dedicated to providing high-quality cybersecurity solutions.',
@@ -30,7 +32,6 @@ export const metadata = {
   next: 'socialcyber.co.il',
   sitemap: ''
 }
-
 function RootLayout({ children }) {
   return (
     <html lang="en">
@@ -39,10 +40,12 @@ function RootLayout({ children }) {
 
           <ScrollProvider>
             <ToggledProvider>
-              <ScrollHandler />
-              <Navbar />
-              {children}
-              <Footer />
+              <SmallScreenProvider>
+                <ScrollHandler />
+                <Navbar />
+                {children}
+                <Footer />
+              </SmallScreenProvider>
             </ToggledProvider>
           </ScrollProvider>
       </body>
