@@ -7,8 +7,9 @@ import { GiHamburgerMenu } from "react-icons/gi";
 import { useScrollContext } from '@/app/context/ScrollContext';
 import { useToggledContext } from '@/app/context/ToggledContext';
 import Link from 'next/link';
-import Image from 'next/image';
-
+import Image from "next/legacy/image";
+import Logo from '../../../public/Logo.svg';
+import BlackLogo from '../../../public/black-Logo.svg';
 const toggledMenuItems = [
     { text: 'דף הבית', href: 'home' }, // Use anchor IDs for smooth scrolling
     { text: 'השירותים שלנו', href: 'services' },
@@ -41,15 +42,23 @@ export default function NavLinks() {
         isScrolled ? 'bg-white' : 'bg-[#FB5958] bg-gradient-to-r from-[#FB5958] to-[#F89B29]' 
       }`}
     >
-        <div className="flex-start flex-0.2 max-h-16 flex-shrink">
-          <Link href="/">
+        <div className="flex-0.2 max-h-16 h-16 w-[250px] flex-shrink items-center">
+          <Link href="/" className='h-full flex items-center'>
+          {
+            isScrolled ? 
             <Image
-              src={'/website-logo.png'}
+              src = {Logo}
               alt='navbar-logo'
-              fit='cover'
-              width={250}
-              height={100}
+              quality={100}
+              unoptimized 
+            />:
+            <Image
+              src = {BlackLogo}
+              alt='navbar-logo'
+              quality={100}
+              unoptimized 
             />
+          }
           </Link>
         </div>
       {/* Navigation links for larger screens */}

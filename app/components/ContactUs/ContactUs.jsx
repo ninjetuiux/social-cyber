@@ -1,6 +1,6 @@
 'use client'
 
-import Image from 'next/image';
+import Image from "next/legacy/image";
 import React, { useEffect, useState } from 'react';
 
 
@@ -89,7 +89,7 @@ const ContactUs = ({AddContactToMailchimp}) => {
           <Image
             src="/contactUs/contactUs.jpg"
             alt="contact-us"
-            layout='responsive'
+            fill
             width={1920}
             height={1080}
           />

@@ -1,11 +1,11 @@
 'use client'
-import Image from 'next/image'
+import Image from "next/legacy/image"
 import React, { useState, useEffect } from 'react'
 import Typed from 'typed.js';
 // import IconsShow from './IconsShow/IconsShow';
 import { Link as ScrollLink } from 'react-scroll';
 import { useToggledContext } from '@/app/context/ToggledContext';
-
+import HeroImage from '../../../public/hero-2-design.png';
 export default function Hero() {    
     const { isToggled } = useToggledContext();
     const [isSmallScreen, setIsSmallScreen] = useState(false); // Local state for responsiveness
@@ -40,15 +40,12 @@ export default function Hero() {
   return (
     <div id='home' className={`${isToggled ? 'z-0 hidden' : 'z-0 relative top-0 max-x-max overflow-hidden flex lg:h-auto min-h-[100dvh] bg-[#FB5958] bg-gradient-to-r from-[#FB5958] to-[#F89B29] font-sans tracking-wide'}`}>
         <div className={`${isToggled ? 'z-0' : 'z-0 flex flex-col items-center pt-[30px] w-full relative top-0'}`}>
-            <Image src='/hero-2-design.png' 
-            layout='cover'
-            width={1200}
-            height={600}
-            alt=''
-            className='' 
-            style={{ objectFit: 'cover', maxHeight: '600px', minWidth: '1200px', position: 'relative', top: 0, zIndex: 0}}
-            // sizes='(max-width: 768px) 100vw, 800px '
-            />
+            <div className='max-w-[1400px] min-w-[1000px] max-h-[800px]'>
+              <Image src={HeroImage} 
+              alt='hacked-person-hero-image'
+              objectFit='cover'
+              />
+            </div>
             <div className="w-full flex justify-center mt-3 z-10 min-h-[200px]">
                 <div className="text-center text-[#01273a]">
                     <span className="auto-type text-3xl font-bold my-3"></span> 
