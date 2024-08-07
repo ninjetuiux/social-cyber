@@ -50,16 +50,35 @@ const FormInputsGroup = {
     id: '6',
   },
 };
+
 const contactUsSchema = z.object({
-  EMAIL: z.string().email({ message: 'אנא הזן כתובת אימייל תקינה' }),
-  FNAME: z.string().min(2, { message: 'שם פרטי צריך להיות לפחות 2 תווים' }),
-  LNAME: z.string().min(2, { message: 'שם משפחה צריך להיות לפחות 2 תווים' }),
-  PHONE: z.string().min(9, { message: 'אנא הזן מספר פלאפון תקין' }), // Assuming you'll handle number formatting separately
-  MMERGE6: z.enum(['facebook', 'instagram', 'googleAds', 'other'], { 
-    errorMap: () => ({ message: 'אנא בחר מדיה' }), 
+  EMAIL: z
+    .string()
+    .email({ message: "אנא הזן כתובת אימייל תקינה" })
+    .refine((val) => !val.endsWith('.co'), { // Check for common typo
+      message: 'אנא בדוק שנית את כתובת האימייל שלך - ייתכן ששכחת il. בסופה'
+    }),
+  FNAME: z
+    .string()
+    .min(2, { message: "שם פרטי צריך להיות לפחות 2 תווים" })
+    .max(50, { message: "שם פרטי ארוך מדי" })
+    .regex(/^[a-zA-Z\u05D0-\u05EA]+$/, { message: "שם פרטי יכול להכיל רק אותיות" }), // Hebrew and English letters only
+  LNAME: z
+    .string()
+    .min(2, { message: "שם משפחה צריך להיות לפחות 2 תווים" })
+    .max(50, { message: "שם משפחה ארוך מדי" })
+    .regex(/^[a-zA-Z\u05D0-\u05EA]+$/, { message: "שם משפחה יכול להכיל רק אותיות" }), // Hebrew and English letters only
+  PHONE: z
+    .string()
+    .refine((val) => /^\d{9,10}$/.test(val.replace(/\s|-/g, '')), {
+      message: "אנא הזן מספר פלאפון תקין בן 9-10 ספרות"
+    }),
+  MMERGE6: z.enum(['facebook', 'instagram', 'googleAds', 'other'], {
+    errorMap: () => ({ message: 'אנא בחר מדיה' }),
   }),
-  MMERGE7: z.string(),
+  MMERGE7: z.string().min(10, { message: "אנא ספק פרטים נוספים לגבי הבעיה" }),
 });
+
 const ContactUs = ({AddContactToMailchimp}) => {
   const [isFormSent, setIsFormSent] = useState(false);
   const { isSmallScreen,setIsSmallScreen } = useSmallScreenContext();
