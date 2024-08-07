@@ -37,10 +37,11 @@ const FormInputsGroup = {
     type: 'select',
     options: {
       message: 'בחר את המדיה עבורה תרצה שירות',
-      facebook: 'facebook',
-      instagram: 'instagram',
-      googleAds: 'googleAds',
-      other: 'other'
+      פייסבוק: 'פייסבוק',
+      אינסטגרם: 'אינסטגרם',
+      גוגל_מודעות: 'גוגל_מודעות',
+      לינקדאין: 'לינקדאין',
+      אחר: 'אחר...'
     },
     id: '5',
   },
@@ -73,7 +74,7 @@ const contactUsSchema = z.object({
     .refine((val) => /^\d{9,10}$/.test(val.replace(/\s|-/g, '')), {
       message: "אנא הזן מספר פלאפון תקין בן 9-10 ספרות"
     }),
-  MMERGE6: z.enum(['facebook', 'instagram', 'googleAds', 'other'], {
+  MMERGE6: z.enum(['פייסבוק', 'אינסטגרם', 'גוגל מודעות', 'לינקדאין' ,'אחר...'], {
     errorMap: () => ({ message: 'אנא בחר מדיה' }),
   }),
   MMERGE7: z.string().min(10, { message: "אנא ספק פרטים נוספים לגבי הבעיה" }),
