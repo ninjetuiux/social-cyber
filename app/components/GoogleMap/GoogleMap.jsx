@@ -18,7 +18,6 @@ const GoogleMap = () => {
         const response = await fetch('/api/get-api-key');
         const data = await response.json();
         setMyApiKey(data.apiKey);
-        console.log('my api key:', data.apiKey)
       } catch (error) {
         console.error('Error fetching API key:', error);
         setIsLoading(false);
@@ -26,7 +25,7 @@ const GoogleMap = () => {
     };
     fetchApiKey();
   }, []);
-  console.log('my api key:', myApiKey);
+  // console.log('my api key:', myApiKey);
   // If API key is not loaded, return a loading indicator
   if (!myApiKey) {
     return <div>Loading...</div>;

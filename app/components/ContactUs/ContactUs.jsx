@@ -1,6 +1,8 @@
 'use client'
 
-import Image from "next/legacy/image";
+import * as z from 'zod'
+import { useForm } from 'react-hook-form';
+import { zodResolver } from '@hookform/resolvers/zod';
 import React, { useEffect, useState } from 'react';
 import dynamic from 'next/dynamic';
 const GoogleMap = dynamic(() => import('../GoogleMap/GoogleMap'), { 
@@ -48,18 +50,55 @@ const FormInputsGroup = {
     id: '6',
   },
 };
-
-const ContactUs = ({AddContactToMailchimp, googleMapsApi}) => {
-  const [myFormState, setMyFormState] = useState({
-    EMAIL: '',
-    FNAME: '',
-    LNAME: '',
-    PHONE: '',
-    MMERGE6: '',
-    MMERGE7: ''
-  });
+const contactUsSchema = z.object({
+  EMAIL: z.string().email({ message: 'אנא הזן כתובת אימייל תקינה' }),
+  FNAME: z.string().min(2, { message: 'שם פרטי צריך להיות לפחות 2 תווים' }),
+  LNAME: z.string().min(2, { message: 'שם משפחה צריך להיות לפחות 2 תווים' }),
+  PHONE: z.string().min(9, { message: 'אנא הזן מספר פלאפון תקין' }), // Assuming you'll handle number formatting separately
+  MMERGE6: z.enum(['facebook', 'instagram', 'googleAds', 'other'], { 
+    errorMap: () => ({ message: 'אנא בחר מדיה' }), 
+  }),
+  MMERGE7: z.string(),
+});
+const ContactUs = ({AddContactToMailchimp}) => {
+  const [isFormSent, setIsFormSent] = useState(false);
   const { isSmallScreen,setIsSmallScreen } = useSmallScreenContext();
+  
+  const {
+    register, 
+    handleSubmit, 
+    formState: { errors, isValid },
+    reset
+  } = useForm({
+    resolver: zodResolver(contactUsSchema),
+    mode: 'onChange',
+  });
+  const onSubmit = (data) => {
+    if(data){
+      console.log('this is onSubmit method data:', data)
+      setIsFormSent(true)
+    }else{
+      console.log('onSubmit data hasent arrived', data)
+      setIsFormSent(false)
+  }};
+  useEffect(() => {
+    if (isFormSent) {
+        console.log("isFormSent changed:", isFormSent);
+        console.log("Form submitted successfully, resetting...");
+        // Reset the form submission flag
+        reset()
+        setIsFormSent(false);
+    }else{
+      console.log('isFormSent could not change:', isFormSent);
+    }
+}, [isFormSent, reset]);
+useEffect(() => {
+  console.log("isValid changed:", isValid); // Log when isValid changes
+}, [isValid]); 
 
+useEffect(() => {
+  console.log("errors changed:", errors); // Log when errors change
+}, [errors]); 
   useEffect(() => {
     const handleResize = () => {
       setIsSmallScreen(window.innerWidth < 768);
@@ -72,13 +111,7 @@ const ContactUs = ({AddContactToMailchimp, googleMapsApi}) => {
       window.removeEventListener('resize', handleResize);
     };
   }, [isSmallScreen, setIsSmallScreen]);
-  const handleChange = (key, value) => {
-    setMyFormState((prev) => ({ ...prev, [key]: value }));
-  };
 
-  useEffect(() => {
-    // console.log(myFormState);
-  }, [myFormState]);
 
   return (
     <div id='ContactUs' className="max-x-max overflow-hidden py-10">
@@ -95,13 +128,13 @@ const ContactUs = ({AddContactToMailchimp, googleMapsApi}) => {
             {/* 32.9696014704144, 35.551171612167984 */}  
         </section>
         <section className={isSmallScreen ? 'justify-center mt-5 w-full flex-1 items-center' : 'w-full flex-[0.5] top-0 text-end flex justify-end items-center'}>
-          <form action={AddContactToMailchimp} className={isSmallScreen ? 'justify-center flex-col items-center w-[90%] mx-auto' : '2xl:w-[550px] w-[90%] mx-auto'}>
+          <form onSubmit={() => isValid ? setIsFormSent(true) && handleSubmit(onSubmit): console.log('the form wasnt valid')} action={AddContactToMailchimp} className={isSmallScreen ? 'justify-center flex-col items-center w-[90%] mx-auto' : '2xl:w-[550px] w-[90%] mx-auto'}>
             {Object.entries(FormInputsGroup).map(([key, input]) => (
               <div key={key} className={isSmallScreen ? '' : "min-w-[350px]"}>
                 {input.type === 'select' ? (
+                  <>
                   <select
-                    value={myFormState[key] ? myFormState[key] : ''}
-                    onChange={(e) => handleChange(key, e.target.value)}
+                  {...register(key)}
                     name={key}
                     style={{ backgroundColor: "transparent" }}
                     className="
@@ -125,7 +158,7 @@ const ContactUs = ({AddContactToMailchimp, googleMapsApi}) => {
                       <option
                         key={optionValue}
                         value={optionValue}
-                        className='bg-white font-sans p-3 hover:bg-white text-right'
+                        className='bg-white font-sans p-3 hover:bg-white placeholder:text-right'
                         style={{ backgroundColor: "white", appearance: 'none' }}
                         dir='RTL'
                       >
@@ -133,11 +166,13 @@ const ContactUs = ({AddContactToMailchimp, googleMapsApi}) => {
                       </option>
                     ))}
                   </select>
+                  {errors[key] && <span className="text-red-500">{errors[key].message}</span>}
+                  </>
                 ) : (
                   input.type === 'textarea' ? (
+                    <>
                     <textarea
-                      value={myFormState[key]}
-                      onChange={(e) => handleChange(key, e.target.value)}
+                      {...register(key)}
                       placeholder={input.name}
                       name={key}
                       className='
@@ -154,13 +189,15 @@ const ContactUs = ({AddContactToMailchimp, googleMapsApi}) => {
                         focus:placeholder-black
                       '
                     />
+                      {errors[key] && <span className="text-red-500">{errors[key].message}</span>}
+                    </>
                   ) : (
+                    <>
                     <input
+                      {...register(key)}
                       type={input.type}
                       placeholder={input.name}
-                      value={myFormState[key]}
                       name={key}
-                      onChange={(e) => handleChange(key, e.target.value)}
                       className="
                         w-full
                         text-right
@@ -175,12 +212,16 @@ const ContactUs = ({AddContactToMailchimp, googleMapsApi}) => {
                         focus:placeholder-black
                       "
                     />
+                    {errors[key] && <span className="text-red-500">{errors[key].message}</span>}
+                    </>
                   )
                 )}
               </div>
             ))}
             <div className='flex w-full justify-center items-center'>
-              <button type="submit"
+              <button 
+                type="submit"
+                disabled={!isValid}
                 className="
                   border-[1px]
                   my-5
