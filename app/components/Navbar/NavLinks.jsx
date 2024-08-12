@@ -6,15 +6,18 @@ import { Link as ScrollLink } from 'react-scroll';
 import { GiHamburgerMenu } from "react-icons/gi";
 import { useScrollContext } from '@/app/context/ScrollContext';
 import { useToggledContext } from '@/app/context/ToggledContext';
+import { signOut,useSession } from 'next-auth/react';
 import Link from 'next/link';
-import Image from "next/legacy/image";
+import Image from "next/image";
 import Logo from '../../../public/Logo.svg';
 import BlackLogo from '../../../public/black-Logo.svg';
+
+
 const toggledMenuItems = [
-    { text: 'דף הבית', href: 'home' }, // Use anchor IDs for smooth scrolling
-    { text: 'השירותים שלנו', href: 'services' },
-    { text: 'מי אנחנו', href: 'about' },
-    { text: 'צור קשר', href: 'ContactUs' },
+    { text: 'דף הבית', href: '#home' }, // Use anchor IDs for smooth scrolling
+    { text: 'השירותים שלנו', href: '#services' },
+    { text: 'מי אנחנו', href: '#about' },
+    { text: 'צור קשר', href: '#ContactUs' },
 ];
 
 export default function NavLinks() {
@@ -34,6 +37,14 @@ export default function NavLinks() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, [isScrolled]);
+
+  const handleNavLinkClick = (href) => {
+    if (href.startsWith('#')) {
+      // Update the URL fragment identifier for internal links
+      window.history.pushState(null, null, href); 
+    }
+  };
+  const { data, status } = useSession();
 
   return (
     <>
@@ -64,17 +75,36 @@ export default function NavLinks() {
       {/* Navigation links for larger screens */}
       <div className="hidden lg:flex lg:flex-0.8 justify-end text-center flex-grow items-center h-full">
         <ul className="flex flex-row-reverse gap-5 text-center items-center justify-center lg:pr-16">
+          {status === 'unauthenticated' ? (
+            <Link href='/Blog/authentication'>
+              התחבר
+            </Link>
+          ) : ( 
+          status ==='loading' ? (
+            <div>Loading...</div>
+          ):
+          // Render something else if the user is authenticated
+          <div className='flex'>
+            <div className='flex items-center mr-4'>
+             <Link href=''>צור-פוסט</Link>
+            </div>
+            <button onClick={signOut} className='flex flex-row-reverse items-center gap-4'>
+              <Image src={data?.user?.image} alt='user-profile-image' width={36} height={36} className='rounded-full' />
+              התנתק
+            </button>
+          </div>
+          )}
           {toggledMenuItems.map((item) => (
             <ScrollLink 
-              key={item.href}
-              to={item.href} 
+              key={item?.href}
+              to={item.href.substring(1)}
               smooth={true}
               duration={1000}
               className="cursor-pointer items-center flex"
               // Prevent default link behavior to avoid page jumps
-              onClick={(e) => e.preventDefault()}
+              onClick={() => handleNavLinkClick(item.href)}
             >
-              <li>{item.text}</li>
+              <li>{item?.text}</li>
             </ScrollLink>
           ))}
         </ul>

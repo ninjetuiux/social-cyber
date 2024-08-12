@@ -29,3 +29,48 @@
     flex: 0 0 auto;
     width: 180px;
   }
+
+
+  /* blog layout */
+
+/* In your global CSS file */
+
+/* 2xl breakpoint (screens 1536px and up) */
+@media (min-width: 1536px) {
+  /* No need to style hero-video-container here, it will take max-w-[1536px] by default */
+  .hero-video-container {
+    @apply max-h-[800px] max-w-[1200px];
+  }
+}
+
+/* xl breakpoint (screens 1280px and up) */
+@media (min-width: 1280px) and (max-width: 1535px) {
+  .hero-video-container {
+    @apply w-[90%]; 
+  }
+}
+
+/* lg breakpoint (screens 1024px and up) */
+@media (min-width: 1024px) and (max-width: 1279px) {
+  .hero-video-container {
+    @apply w-[80%]; 
+  }
+}
+
+/* md breakpoint (screens 768px and up) */
+@media (min-width: 768px) and (max-width: 1023px) {
+  .hero-video-container {
+    @apply w-full px-4; 
+  }
+}
+
+/* sm and smaller breakpoints */
+@media (max-width: 767px) {
+  .hero-video-container {
+    @apply min-w-[400px] px-4 h-[450px] !important;
+  }
+
+  .overlay h1 {
+    @apply text-3xl; 
+  }
+}

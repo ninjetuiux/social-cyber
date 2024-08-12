@@ -69,11 +69,9 @@ export const Footer = () => {
                     <button disabled>
                     <li>אודותינו</li>
                     </button>
-                    <br />
-                    <button disabled>
-                    <li>מאמרים</li>
-                    </button>
-                    <br />
+                    <Link href='/Blog' scroll={false}>
+                    <li>סייבר בלוג</li>
+                    </Link>
                     <button disabled>
                     <li>פרצו לי</li>
                     </button>
