@@ -86,7 +86,7 @@ export default function NavLinks() {
           // Render something else if the user is authenticated
           <div className='flex'>
             <div className='flex items-center mr-4'>
-             <Link href=''>צור-פוסט</Link>
+             <Link href='/Blog/write-post'>צור-פוסט</Link>
             </div>
             <button onClick={signOut} className='flex flex-row-reverse items-center gap-4'>
               <Image src={data?.user?.image} alt='user-profile-image' width={36} height={36} className='rounded-full' />

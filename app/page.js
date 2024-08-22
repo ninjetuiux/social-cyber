@@ -4,9 +4,12 @@ import Services from "./components/Services/Services";
 import { AddContactToMailchimp } from '@/app/actions/AddContactToMailchimp';
 import dynamic from 'next/dynamic';
 import IconsShow from "./components/Hero/IconsShow/IconsShow";
+
 export const Detailed = dynamic(() => import('./components/Services/DetailedServices/Detailed'), { ssr: false });
 export const ContactUs = dynamic(() => import('./components/ContactUs/ContactUs'), { ssr: false });
 export const Footer = dynamic(() => import('./components/Footer/Footer'), { ssr: false });
+
+
 
 export default async function Home() {
   return (

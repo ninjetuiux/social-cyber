@@ -38,7 +38,7 @@ export const metadata = {
   next: 'socialcyber.co.il',
   sitemap: ''
 }
-function RootLayout({ children }) {
+export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <head />
@@ -59,4 +59,13 @@ function RootLayout({ children }) {
     </html>
   );
 }
-export default RootLayout;
+
+export function BlogLayout({ children }) {
+  return (
+    <div>
+      <AuthProvider>
+        {children}
+      </AuthProvider>
+    </div>
+  );
+}

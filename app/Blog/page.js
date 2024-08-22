@@ -1,13 +1,11 @@
-import React from 'react';
+'use server'
 import BlogHeroVideo from './components/Hero/BlogHeroVideo.jsx';
-import FeaturedPosts from './components/featuredPosts/FeaturedPosts.jsx';
-import PopularCategories from './components/PopularCategories/PopularCategories.jsx';
+import PopularCategories from './PopularCategories/PopularCategories.jsx';
+import PostsPage from './posts/page.js';
 
 
+const Blog = async (props) => {
 
-
-const Blog = ({ searchParams }) => {
-  const page = parseInt(searchParams.page) || 1
   return (
     <>
     <div className='w-full flex justify-center overflow-hidden'>
@@ -21,9 +19,9 @@ const Blog = ({ searchParams }) => {
             </h1>
           </div>
           <div className="">
-            <BlogHeroVideo className='' />
+            <BlogHeroVideo  />
             <PopularCategories />
-            <FeaturedPosts page={page} className=''/>
+            <PostsPage {...props} />
           </div>
         </div>
     </div>

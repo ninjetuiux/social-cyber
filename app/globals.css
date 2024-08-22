@@ -2,7 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-
 @keyframes slide-left {
     0% {
       transform: translateX(0);
@@ -11,8 +10,331 @@
       transform: translateX(-50%);
     }
   }
+/* WritePostPage.css */
+hr {
+  display: block; /* or inline-block */
+  visibility: visible;
+  opacity: 1;
+  height: 1px; /* Ensure it's not set to 0 */
+  border: 1px solid #dfdfdf; /* Ensure the border is visible */
+  background-color: #dfdfdf;
+}
+.tiptap p.is-editor-empty:first-child::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: right;
+  height: 0;
+  pointer-events: none;
+}
+.tiptap p.is-empty::before {
+  color: #adb5bd;
+  content: attr(data-placeholder);
+  float: right;
+  height: 0;
+  pointer-events: none;
+}
+/* Basic editor styles */
+.ProseMirror h1.is-empty:nth-child(1)::before,
+.ProseMirror p.is-empty:nth-child(2):last-child::before{
+  color: rgb(202, 202, 202);
+  content: attr(data-placeholder);
+  float: right;
+  height: 0;
+  pointer-events: none;
+}
+.custom-title{
+  font-size: 46px !important;
+}
+.tiptap {
+  :first-child {
+    margin-top: 0;
+    pointer-events: auto;
+  }
+
+  .custom-image-container{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+  }
+  .custom-image-figcaption{
+    color: lightgray;
+  }
+  .custom-image{
+    height: auto;
+    max-width: 70%;
+    margin-bottom: 20px;
+    display: flex;
+    justify-content: center;
+    transition-duration: 100ms;
+  }
+  .custom-image:hover{
+    outline-color: #b9ff84;
+    outline-width: 3px;
+    outline-style: solid;
+    transition-duration: 100ms;
+    /* transition-property: all; */
+  }
+  .custom-image:focus{
+    outline-color: #b9ff84;
+    outline-width: 3px;
+    outline-style: solid;
+  }
+ 
+  .code-block {
+    position: relative;
+    background-color: #f9f9f9;
+    border: 1px black solid;
+    border-radius: 5px;
+    pointer-events: auto;
+    margin-bottom: 50px;
+    text-align: left;
+    select {
+      position: absolute;
+      background-color: white;
+      left: 0;
+      color: black;
+      padding: 3px;
+      margin: 5px;
+      text-align: left;
+      border-radius: 5px;
+      font-size: 16px;
+      width: 200px;
+      color: #b1b1b1;
+    }
+    select:hover {
+      cursor: pointer;
+    }
+    select > option:hover {
+      cursor: pointer;
+    }
+  }
+
+  pre {
+    /* font-size: '14px'; */
+    border-radius: 0.5rem;
+    color: var(--white);
+    font-family: "JetBrainsMono", monospace;
+    margin: 1.5rem 0;
+    padding: 0.75rem 1rem;
+
+    code {
+      background: none;
+      color: inherit;
+      font-size: 0.8rem;
+      padding: 0;
+      /* text-align: left; */
+    }
+
+    /* Code styling */
+    .hljs-comment,
+    .hljs-quote {
+      color: #616161;
+    }
+
+    .hljs-variable,
+    .hljs-template-variable,
+    .hljs-attribute,
+    .hljs-tag,
+    .hljs-name,
+    .hljs-regexp,
+    .hljs-link,
+    .hljs-name,
+    .hljs-selector-id,
+    .hljs-selector-class {
+      color: #f98181;
+    }
+
+    .hljs-number,
+    .hljs-meta,
+    .hljs-built_in,
+    .hljs-builtin-name,
+    .hljs-literal,
+    .hljs-type,
+    .hljs-params {
+      color: #fbbc88;
+    }
+
+    .hljs-string,
+    .hljs-symbol,
+    .hljs-bullet {
+      color: #9dcc79;
+    }
+
+    .hljs-title,
+    .hljs-section {
+      color: #b9b671;
+    }
+
+    .hljs-keyword,
+    .hljs-selector-tag {
+      color: #70cff8;
+    }
+
+    .hljs-emphasis {
+      font-style: italic;
+    }
+
+    .hljs-strong {
+      font-weight: 700;
+    }
+  }
+
+  /* List styles */
+  ul,
+  ol {
+    padding: 0 1rem;
+    margin: 1.25rem 1rem 1.25rem 0.4rem;
+
+    li p {
+      margin-top: 0.25em;
+      margin-bottom: 0.25em;
+    }
+  }
+
+  /* Heading styles */
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    line-height: 1.1;
+    margin-top: 2.5rem;
+    /* text-wrap: pretty; */
+  }
+
+  h1,
+  h2 {
+    margin-top: 3.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-size: 1.4rem;
+  }
+
+  h2 {
+    font-size: 1.2rem;
+  }
+
+  h3 {
+    font-size: 1.1rem;
+  }
+
+  h4,
+  h5,
+  h6 {
+    font-size: 1rem;
+  }
+  /* Code and preformatted text styles */
+  code {
+    background-color: var(--purple-light);
+    border-radius: 0.4rem;
+    color: var(--black);
+    font-size: 0.85rem;
+    padding: 0.25em 0.3em;
+    /* text-align: left !important; */
+  }
+
+  pre {
+    background: var(--black);
+    border-radius: 0.5rem;
+    color: var(--white);
+    font-family: "JetBrainsMono", monospace;
+    margin: 1.5rem 0;
+    padding: 0.75rem 1rem;
+
+    code {
+      background: none;
+      color: inherit;
+      font-size: 0.8rem;
+      padding: 0;
+    }
+  }
+
+  blockquote {
+    border-left: 3px solid var(--gray-3);
+    margin: 1.5rem 0;
+    padding-left: 1rem;
+  }
+
+  hr {
+    border: none;
+    border-top: 1px solid var(--gray-2);
+    margin: 2rem 0;
+  }
+}
+
+/* Bubble menu */
+.bubble-menu {
+  background-color: #000;
+  color: white;
+  border: 1px solid var(--gray-1);
+  border-radius: 0.7rem;
+  box-shadow: var(--shadow);
+  height: 30px;
+  display: flex;
+  align-items: center;
+  font-size: 20px;
+  padding: 0.2rem;
+  text-align: right;
+
+  button {
+    background-color: var(--gray-3);
+    color: #fff;
+    border-radius: 0.7rem;
+    padding: 0.3rem;
+
+    &:hover {
+      background-color: #fff;
+    }
+
+    &.is-active {
+      background-color: var(--purple);
+
+      &:hover {
+        background-color: var(--purple-contrast);
+      }
+    }
+  }
+}
+
+.editor-container {
+  position: relative;
+  max-width: 80%;
+  margin: 0 auto;
+  background-color: #fff;
+  /* set a small box shadow like envelope  */
+  box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+  border-radius: 5px;
+  min-height: 700px;
+  padding: 20px 10px;
+  font-size: large;
+  /* Add padding to the right to make space for the button */
+}
+
+.plus-button {
+  position: absolute;
+  color: black;
+  height: 48px;
+  width: 48px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  margin-top: -30px;
+  padding: 8px;
+  transition: top 0.2s ease;
+  /* Smooth transition when moving */
+  right: -60px;
+  /* Position the button 60px outside the editor's right edge */
+}
+  
   .slider-container {
     width: 100%;
+    min-height: 300px;
+    cursor: text;
     overflow: hidden;
     position: relative;
     z-index: 10;
