@@ -40,3 +40,7 @@ next-env.d.ts
 
 .vercel
 .env*.local
+
+
+# Local future files to be worked on in the future
+/app/Blog/write-post/v1

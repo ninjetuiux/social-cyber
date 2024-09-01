@@ -2,8 +2,40 @@
 const nextConfig = {
   // ... other Next.js configuration ...
   images: {
-    // If you are using images from external domains, add them here
-    domains: ['https://social-cyber.co.il', 'lh3.googleusercontent.com'], 
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: 'social-cyber.co.il',
+      },
+      {
+        protocol: 'https',
+        hostname: 'miro.medium.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'lh3.googleusercontent.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'firebasestorage.googleapis.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'www.youtube.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'youtube.com',
+      },
+      {
+        protocol: 'https',
+        hostname: 'youtu.be',
+      },
+      {
+        protocol: 'https',
+        hostname: 'img.youtube.com',
+      },
+    ],
   },
   sitemap: {
     hostname: 'https://social-cyber.co.il', // Updated hostname
@@ -17,5 +49,4 @@ const nextConfig = {
     ],
   },
 };
-
 export default nextConfig;

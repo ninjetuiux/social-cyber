@@ -2,21 +2,24 @@
 import { useSession } from "next-auth/react";
 import { useRouter } from 'next/navigation';
 import Tiptap from "./Tiptap";
-
+import { useEffect } from 'react';
 
 const WritePostPage = () => {
     const { status } = useSession();
-    const router = useRouter()
+    const router = useRouter();
     
+    useEffect(() => {
+        if (status === "unauthenticated") {
+            router.push('/Blog');
+        }
+    }, [status, router]);
+
     if (status === "loading") {
         return <div>loading...</div>
     }
-    if (status === "unauthenticated") {
-        router.push('/Blog')
-    }
 
     return (
-        <div dir='rtl' className=" min-w-max min-h-[100dvh] py-5 bg-gray-200 ">
+        <div dir='rtl' className="max-w-full overflow-hidden min-h-[100dvh]">
           <Tiptap />
         </div>
     )

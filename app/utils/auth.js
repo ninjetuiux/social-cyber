@@ -18,4 +18,11 @@ export const authOptions = {
         }),
         // ...add more providers here
       ],
+      session: {
+        jwt: true,
+      },
+      jwt: {
+        secret: process.env.NEXTAUTH_SECRET,
+      },
+      secret: process.env.NEXTAUTH_SECRET,
 }

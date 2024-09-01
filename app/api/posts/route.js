@@ -1,63 +1,26 @@
-// import prisma from "@/app/utils/connect";
-// import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
+import { PrismaClient } from '@prisma/client';
 
-// export const GET = async (req) => {
-//     const { searchParams } = new URL(req.url);
-//     console.log('logging searchParams in route to verify request url:', searchParams)
-//     const page = parseInt(searchParams.get('page') || '1', 10);
-//     console.log('logging page in route to verify url:', page)
-//     const catSlug = searchParams.get('catSlug');
+const prisma = new PrismaClient();
 
-//     const POST_PER_PAGE = 4;
-//     const offset = (page - 1) * POST_PER_PAGE;
+export async function POST(request) {
+    try {
+        const { title, content, htmlContent, authorId } = await request.json();
 
-//     let query = {
-//         take: POST_PER_PAGE,
-//         skip: offset,
-//     };
+        const newPost = await prisma.post.create({
+            data: {
+                title,
+                content,
+                htmlContent,
+                authorId,
+            },
+        });
 
-//     if (catSlug) {
-//         try {
-//             const category = await prisma.category.findUnique({
-//                 where: { slug: catSlug }
-//             });
-
-//             if (!category) {
-//                 return new NextResponse(
-//                     JSON.stringify({ error: 'Invalid category slug' }),
-//                     { status: 400 }
-//                 );
-//             }
-
-//             query.where = { catSlug };
-
-//         } catch (err) {
-//             console.error('Error fetching category:', err);
-//             return new NextResponse(
-//                 JSON.stringify({ error: 'Failed to fetch data' }),
-//                 { status: 500 }
-//             );
-//         }
-//     }
-
-//     try {
-//         const [posts, count] = await prisma.$transaction([
-//             prisma.post.findMany({
-//                 ...query,
-//                 include: { cat: true },
-//             }),
-//             prisma.post.count({ where: query.where }),
-//         ]);
-
-//         return new NextResponse(
-//             JSON.stringify({ posts, totalPosts: count }),
-//             { status: 200 }
-//         );
-//     } catch (err) {
-//         console.error('Error fetching posts:', err);
-//         return new NextResponse(
-//             JSON.stringify({ error: 'Failed to fetch data' }),
-//             { status: 500 }
-//         );
-//     }
-// };
+        return NextResponse.json({ message: 'Post created successfully', post: newPost }, { status: 201 });
+    } catch (error) {
+        console.error('Error creating post:', error);
+        return NextResponse.json({ message: 'Error creating post', error: error.message }, { status: 500 });
+    } finally {
+        await prisma.$disconnect();
+    }
+}

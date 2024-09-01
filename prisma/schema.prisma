@@ -10,7 +10,7 @@ generator client {
 
 model User {
   id            String          @id @default(auto()) @map("_id") @db.ObjectId
-  name          String?
+  name          String?         @unique
   email         String          @unique
   emailVerified DateTime?
   image         String?
@@ -95,14 +95,16 @@ model Post {
   createdAt DateTime  @default(now())
   slug      String    @unique
   title     String
-  desc      String
+  content   Json
+  desc      String    @db.String
   img       String?
   views     Int       @default(0)
-  catSlug   String
-  cat       Category  @relation(fields: [catSlug], references: [slug])
+  catSlug   String?
+  cat       Category?  @relation(fields: [catSlug], references: [slug])
   userEmail String
-  user      User?     @relation(fields: [userEmail], references: [email])
+  user      User     @relation(fields: [userEmail], references: [email])
   comments  Comment[]
+  authorName String
 }
 
 model Comment {
@@ -110,7 +112,7 @@ model Comment {
   createdAt DateTime @default(now())
   desc      String
   userEmail String
-  user      User?    @relation(fields: [userEmail], references: [email])
+  user      User    @relation(fields: [userEmail], references: [email])
   postSlug  String
   post      Post     @relation(fields: [postSlug], references: [slug])
 }

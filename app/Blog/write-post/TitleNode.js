@@ -1,18 +1,27 @@
-import Heading from "@tiptap/extension-heading";
-import { mergeAttributes } from '@tiptap/core';
+import { Node } from '@tiptap/core';
 
-const Title = Heading.extend({
-    name: "title",
-    group: "title",
-    isolating: true,
-    defining: true,
-    
-    parseHTML() {
-      return [{ tag: 'h1:first-child' }]; // You might want to add a specific class here if needed for parsing
-    },
-    renderHTML({ HTMLAttributes }) {
-      return ['h1', mergeAttributes(HTMLAttributes, { class: 'custom-title' }), 0]; // Apply the class here
-    },
-  }).configure({ levels: [1] });
+const TitleNode = Node.create({
+  name: 'title',
+  group: 'block',
+  content: 'inline*',
+  parseHTML() {
+    return [{ tag: 'h1' }];
+  },
+  renderHTML({ HTMLAttributes }) {
+    return ['h1', HTMLAttributes, 0];
+  },
+  addKeyboardShortcuts() {
+    return {
+      Enter: ({ editor }) => {
+        if (editor.state.selection.$anchor.parent.type.name === 'title') {
+          editor.commands.insertContentAt(editor.state.doc.content.size, { type: 'paragraph' });
+          editor.commands.focus('end');
+          return true;
+        }
+        return false;
+      },
+    };
+  },
+});
 
-  export default Title;
+export default TitleNode;

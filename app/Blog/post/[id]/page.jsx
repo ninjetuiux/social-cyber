@@ -1,6 +1,8 @@
 import prisma from "@/app/utils/connect";
 import Image from "next/image";
 import PopularPosts from "../../components/PopularPosts/PopularPosts";
+import CommentForm from "./CommentForm";
+import CommentList from "./CommentList";
 
 
 
@@ -10,6 +12,16 @@ export default async function SinglePost({ params }) {
     // Fetch the post data from the database
     const post = await prisma.post.findUnique({
         where: { id: id },
+        include: {
+            comments: {
+                include: {
+                    user: true
+                },
+                orderBy: {
+                    createdAt: 'desc'
+                }
+            }
+        }
     });
 
     // If no post is found, return a message or handle accordingly
@@ -18,12 +30,51 @@ export default async function SinglePost({ params }) {
     }
     console.log('single post data:', post)
     // Render the post data
+
+        // Function to extract the first image from the post content
+        const getFirstImage = (content) => {
+            if (!content || !content.content) return null;
+    
+            const findImage = (nodes) => {
+                for (const node of nodes) {
+                    if (node.type === 'image') {
+                        return node.attrs.src;
+                    }
+                    if (node.content) {
+                        const nestedImage = findImage(node.content);
+                        if (nestedImage) return nestedImage;
+                    }
+                }
+                return null;
+            };
+    
+            return findImage(content.content);
+        };
+    
+        // Extract the first image URL
+        const firstImageUrl = getFirstImage(post.content);
+
+        // Function to render HTML content safely
+        const createMarkup = (htmlContent) => {
+            return { __html: htmlContent };
+        };
     return (
         <div className="flex flex-col gap-5 w-full py-10 px-5" dir='rtl'>
             <div className="flex w-full justify-center">
                 <div className="flex w-full">
-                    <img src={post.img} alt='single-post-image' className="w-[550px] h-[400px]"
-                    />    
+                    {firstImageUrl ? (
+                        <Image 
+                            src={firstImageUrl} 
+                            alt='single-post-image' 
+                            width={550} 
+                            height={400} 
+                            className="object-cover"
+                        />
+                    ) : (
+                        <div className="w-[550px] h-[400px] bg-gray-200 flex items-center justify-center">
+                            No image available
+                        </div>
+                    )}
                 </div>
                 <div className="flex flex-col items-start justify-around w-full">
                     <div className="text-5xl">
@@ -35,7 +86,7 @@ export default async function SinglePost({ params }) {
                                 <img src='https://avatar.iran.liara.run/public' alt="" />
                             </div>
                             <div className="flex flex-col-reverse text-sm justify-center">
-                                <span>{post.userEmail}</span>
+                                <span>{post.authorName}</span>
                                 <span>{post.createdAt.toISOString().substring(0,10)}</span>
                             </div>    
                         </div>
@@ -55,33 +106,15 @@ export default async function SinglePost({ params }) {
                         <PopularPosts />
                     </div>
                     <div className="flex flex-col gap-5 w-full">
-                        <div className="bg-gray-50 p-5">
-                            <h1>{post.desc}</h1>
-                        </div>
+                        <div className="bg-gray-50 p-5"  dangerouslySetInnerHTML={createMarkup(post.desc)} />
                         <div className="bg-gray-50 items-center flex rounded-xl">
-                            <form className="flex w-full justify-between flex-1 rounded-xl">
-                                <div className='flex items-center justify-center flex-[0.2] w-full'>
-                                    <button type='submit' className="bg-orange-300 py-4 px-16 rounded-full flex justify-center">שלח</button>
-                                </div>
-                                <textarea
-                                rows='3'
-                                placeholder="השאר תגובה לפוסט זה."
-                                className="flex-[0.8] w-full border-2 rounded-xl border-gray-100 outline-none placeholder:mx-3 placeholder:text-black p-2 resize-none"
-                                />
-                            </form>
+                            <div className="flex w-full justify-between flex-1 rounded-xl">
+                                <CommentForm postId={post.id} />
+                            </div>
                         </div>
                         <div className="bg-gray-50 p-5">
                             <div className="w-full flex gap-3 items-center">
-                                <div className="flex">
-                                    <img src='https://avatar.iran.liara.run/public' alt="" style={{width: '50px'}} />
-                                </div>
-                                <div className="flex flex-col">
-                                    <span className="text-xs">גוני כמוני</span>
-                                    <span className="text-xs">18/3/2024</span>
-                                </div>
-                                <div className="w-full bg-gray-100 rounded-xl p-2">
-                                    comment
-                                </div>
+                                <CommentList postId={id} />
                             </div>
                         </div>
                 </div>
