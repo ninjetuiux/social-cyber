@@ -27,23 +27,13 @@ export default function ImageBtn({ editor }) {
                         return;
                     }
 
-                    editor?.chain()?.focus()?.setImage({ src: downloadURL, alt: file.name })?.run();
+                    editor?.chain()?.focus()?.setImage({ 
+                        src: downloadURL, 
+                        alt: file.name,
+                        class: 'max-h-500'
+                    })?.run();
                     editor?.commands?.createParagraphNear();
                     editor?.commands?.enter();
-                    console.log("Image insertion command executed");
-
-                    // Log the editor's HTML content
-                    console.log("Editor HTML:", editor.getHTML());
-
-                    // Log the editor's JSON content
-                    console.log("Editor JSON:", JSON.stringify(editor.getJSON(), null, 2));
-
-                    // Force update
-                    editor.commands.focus();
-                    setTimeout(() => {
-                        editor.commands.blur();
-                        console.log("Editor HTML after blur:", editor.getHTML());
-                    }, 100);
 
                 } catch (error) {
                     console.error('Error uploading image:', error);

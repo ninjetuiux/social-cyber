@@ -13,12 +13,13 @@ import MenuBar from "./MenuBar";
 import TextStyle from '@tiptap/extension-text-style';
 import Link from '@tiptap/extension-link';
 import Youtube from '@tiptap/extension-youtube';
-// import OrderedList from '@tiptap/extension-ordered-list';
+
 // import Text from "@tiptap/extension-text";
 // import Paragraph from "@tiptap/extension-paragraph";
 
 // USER SESSION IMPORT
 import { useSession } from 'next-auth/react';
+import ListItem from '@tiptap/extension-list-item';
 
 const generateSlug = (title) => {
   return title
@@ -30,50 +31,82 @@ const generateSlug = (title) => {
 
 const Tiptap = ({ initialContent, onSave }) => {
   const { data: session } = useSession();
-  const extensions = useMemo(() => [
-    StarterKit.configure({
-      orderedList: {
-        keepMarks: true,
-        keepAttributes: false,
-        HTMLAttributes: {
-          class: 'custom-ordered-list',
+  const extensions = useMemo(() => {
+    const exts = [
+      StarterKit.configure({
+        // bulletList: false,
+        // listItem: false, 
+        bulletList: {
+          keepMarks: true,
+          keepAttributes: false,
+          HTMLAttributes: {
+            class: 'custom-bullet-list',
+          },
         },
-      },
-      Heading: false,
-      Color: false,
-    }),
-    Underline,
-    TextStyle,
-    Link,
-    Youtube.configure({
-      width: 640,
-      height: 480,
-      autoplay: false,
-      allowFullscreen: true,
-      ccLanguage: 'he',
-      loop: false,
-      enableIFrameApi: true,
-      inline: true,
-      controls: false,
-      nocookie: true,
-      HTMLAttributes: {
-        class: 'youtube-video',
-      },
-    }),
-    Heading.configure({
-      levels: [1, 2, 3],
-    }),
-    Color.configure({ types: [TextStyle.name] }),
-    Image.configure({
-      inline: true,
-      allowBase64: true,
-    }),
-    Placeholder.configure({
-      placeholder: 'Write something...',
-    }),
-    TitleNode,
-    DocumentWithTitle,
-  ], []); 
+        ListItem: {
+          HTMLAttributes: {
+            class: 'custom-list-item',
+          },
+        },
+        orderedList: {
+          keepMarks: true,
+          keepAttributes: false,
+          HTMLAttributes: {
+            class: 'custom-ordered-list',
+          },
+        },
+        Heading: {
+          levels: [1, 2, 3],
+        },
+        blockquote: {
+          inline: true,
+          HTMLAttributes: {
+            class: 'custom-blockquote',
+          },
+        },
+        Color: false,
+      }),
+      Underline,
+      TextStyle,
+      // ListItem.configure({
+      //   HTMLAttributes: {
+      //     class: 'custom-list-item',
+      //   },
+      // }),
+      Link,
+      Youtube.configure({
+        width: 640,
+        height: 480,
+        autoplay: false,
+        allowFullscreen: true,
+        ccLanguage: 'he',
+        loop: false,
+        enableIFrameApi: true,
+        inline: true,
+        controls: false,
+        nocookie: true,
+        HTMLAttributes: {
+          class: 'youtube-video',
+        },
+      }),
+
+      Color.configure({ types: [TextStyle.name] }),
+      Image.configure({
+        inline: true,
+        allowBase64: true,
+        HTMLAttributes: {
+          class: 'max-h-500',
+        },
+      }),
+      Placeholder.configure({
+        placeholder: 'Write something...',
+      }),
+      // TitleNode,
+      // DocumentWithTitle,
+    ];
+    console.log('Extensions:', exts);
+    return exts;
+  }, []); 
   const editor = useEditor({
     extensions,
     content: initialContent || '<h1></h1><p></p>',
@@ -84,6 +117,11 @@ const Tiptap = ({ initialContent, onSave }) => {
       },
     },
     immediatelyRender: false,
+    onUpdate: ({ editor }) => {
+      console.log('Editor updated');
+      console.log('Current content:', editor.getHTML());
+      console.log('Is bullet list active:', editor.isActive('bulletList'));
+    },
   });
 
 
@@ -120,17 +158,19 @@ const Tiptap = ({ initialContent, onSave }) => {
   return (
     <div className='w-full flex justify-center'>
       <div className='flex flex-col'>
-        <div className='min-w-[1000px] w-full h-32 flex overflow-y-hidden mb-4'>
+        <div className='min-w-[1000px] w-full h-32 flex overflow-y-hidden mb-4 pb-4'>
           <MenuBar editor={editor} />
         </div>
         {editor ? (
           <>
-          <div className='w-full h-full py-4'>
+          <div className='w-full py-4'>
             <EditorContent editor={editor} className="w-full h-full tiptap-editor" />
           </div>
           <div>
-            <button onClick={handleSave} className="my-4 px-4 py-2 bg-blue-500 text-white rounded">
-              Save Post
+            <button 
+            onClick={handleSave} 
+            className="bg-gradient-to-l from-[#f89a2a] to-[#fb5a57] text-white py-2 px-4 rounded">
+              שלח פוסט
             </button>
           </div>
           </>

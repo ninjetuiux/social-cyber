@@ -23,6 +23,7 @@ import LazyButton from './ButtonMenu/LazyButton';
 import UndoBtn from './ButtonMenu/UndoBtn';
 import RedoBtn from './ButtonMenu/RedoBtn';
 import YoutubeBtn from './ButtonMenu/YoutubeBtn';
+import BlockquoteBtn from './ButtonMenu/BlockquoteBtn';
 const buttonConfig = [
   // { name: 'Heading1', component: lazy(() => import('./ButtonMenu/Headings/Heading1Btn'), { ssr: false }) },
   // { name: 'Heading2', component: lazy(() => import('./ButtonMenu/Headings/Heading2Btn'), { ssr: false }) },
@@ -34,7 +35,7 @@ const buttonConfig = [
 ];
 
 const buttonComponents = [
-  BoldBtn, ItalicBtn, UnderlineBtn, StrikethroughBtn, LinkBtn,
+  BoldBtn, ItalicBtn, UnderlineBtn, StrikethroughBtn, LinkBtn, BlockquoteBtn,
   HorizontalRuleBtn, BulletListBtn, OrderedListBtn, CodeBlockBtn,
   Heading1Btn, Heading2Btn, Heading3Btn, HardBreakBtn, 
   UndoBtn, RedoBtn, YoutubeBtn,
@@ -58,7 +59,7 @@ export default function MenuBar({ editor }) {
     if (!editor) return null;
 
     return (
-        <div className="flex items-center justify-center w-full border-b-2 border-t-2 h-12 overflow-x-auto overflow-y-hidden sm:p-5 sm:m-5">
+        <div className="flex items-center justify-center w-full overflow-x-auto overflow-y-hidden sm:p-5 sm:m-5 shadow-md">
             <div className='flex items-center gap-2 w-full justify-center overflow-y-hidden'>
               {/* <ImageBtn editor={editor} /> */}
               {memoizedButtons}

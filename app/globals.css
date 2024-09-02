@@ -131,15 +131,113 @@
 .ProseMirror .image-container {
   display: flex;
   justify-content: center;
-  width: 100%;
+  /* width: 100%; */
   margin: 1rem 0;
+  max-height: 500px;
+}
+}
+.ProseMirror img.max-h-500 {
+  max-height: 500px;
+  width: auto;
+  object-fit: contain;
+}
+.ProseMirror ul.custom-bullet-list,
+.ProseMirror ul {
+  list-style-type: disc !important;
+  padding-right: 1.5em !important;
+  margin-right: 0.5em !important;
 }
 
+.ProseMirror ul.custom-bullet-list li,
+.ProseMirror ul li,
+.ProseMirror .custom-list-item {
+  display: list-item !important;
+  list-style-type: disc !important;
 }
 
+/* Ensure RTL support for bullet lists */
+[dir="rtl"] .ProseMirror ul.custom-bullet-list,
+[dir="rtl"] .ProseMirror ul {
+  padding-right: 1.5em !important;
+  padding-left: 0 !important;
+}
+.ProseMirror ol.custom-ordered-list,
+.ProseMirror ol {
+  list-style-type: decimal !important;
+  padding-right: 1.5em !important;
+  margin-right: 0.5em !important;
+}
 
+.ProseMirror ol.custom-ordered-list li,
+.ProseMirror ol li,
+.ProseMirror .custom-list-item {
+  display: list-item !important;
+  list-style-type: decimal !important;
+}
 
+/* Ensure RTL support for bullet and ordered lists */
+[dir="rtl"] .ProseMirror ul.custom-bullet-list,
+[dir="rtl"] .ProseMirror ul,
+[dir="rtl"] .ProseMirror ol.custom-ordered-list,
+[dir="rtl"] .ProseMirror ol {
+  padding-right: 1.5em !important;
+  padding-left: 0 !important;
+}
+.ProseMirror h1 {
+  font-size: 2em;
+  font-weight: bold;
+}
 
+.ProseMirror h2 {
+  font-size: 1.5em;
+  font-weight: bold;
+}
+
+.ProseMirror h3 {
+  font-size: 1.17em;
+  font-weight: bold;
+}
+
+/* Add or update these styles */
+.ProseMirror h1[data-placeholder]::before,
+.ProseMirror p[data-placeholder]:first-of-type::before {
+  content: attr(data-placeholder);
+  float: right;
+  color: #adb5bd;
+  pointer-events: none;
+  height: 0;
+}
+
+.ProseMirror h1[data-placeholder]:empty::before,
+.ProseMirror p[data-placeholder]:first-of-type:empty::before {
+  color: #adb5bd;
+}
+
+/* ... other styles */
+
+.custom-blockquote-wrapper {
+  position: relative;
+  margin: 1rem 0;
+  padding-right: 3rem;
+}
+
+.quote-symbol {
+  font-size: 5rem;
+  font-family: Arial, sans-serif;
+  color: #e5e7eb;
+  position: absolute;
+  right: 0;
+  top: -1rem;
+  line-height: 1;
+}
+
+.custom-blockquote {
+  border-right: 4px solid #e5e7eb;
+  border-left: none !important;
+  padding-right: 1rem;
+  padding-left: 0.5rem;
+  font-style: italic;
+}
 .editor-container {
   position: relative;
   background-color: #fff;

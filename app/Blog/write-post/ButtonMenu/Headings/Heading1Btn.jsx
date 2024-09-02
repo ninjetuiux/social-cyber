@@ -18,7 +18,7 @@ export default function Heading1Btn({ editor }) {
                 console.log("Heading1 toggled, new state:", editor.isActive('heading', { level: 1 }));
             }}
             className={`h-8 w-8 p-2 rounded-md flex items-center justify-center cursor-pointer ${
-                isActive ? 'is-active bg-blue-500 text-white' : 'h-8 w-8 p-2 rounded-md flex items-center justify-center cursor-pointer bg-[#ededed]'
+                isActive ? 'is-active bg-[#ededed] text-black' : 'h-8 w-8 p-2 rounded-md flex items-center justify-center cursor-pointer bg-[#ededed]'
             }`}
         >
             <BsTypeH1 />
