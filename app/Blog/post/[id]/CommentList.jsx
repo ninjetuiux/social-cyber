@@ -72,7 +72,7 @@ export default async function CommentList({ postId }) {
     );
 
     const fetchedComments = await getComments(postId);
-    console.log('comments', fetchedComments);
+    // console.log('comments', fetchedComments);
 
     if (!fetchedComments) return <div>Loading comments...</div>;
     if (fetchedComments.length === 0) return <div>No comments yet</div>;

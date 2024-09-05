@@ -12,7 +12,7 @@ export async function POST(request) {
         return NextResponse.json({ message: 'Unauthorized' }, { status: 401 });
     }
     try {
-        const { title, content, desc } = await request.json();
+        const { title, content, desc, catSlug } = await request.json();
     // Provide a temporary slug
     const tempSlug = 'temp-slug';
         // Create the post without the slug first
@@ -24,6 +24,7 @@ export async function POST(request) {
                 slug: tempSlug,
                 userEmail: session.user.email,
                 authorName: session.user.name,
+                catSlug,
             },
         });
 

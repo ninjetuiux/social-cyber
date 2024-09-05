@@ -136,6 +136,9 @@
   max-height: 500px;
 }
 }
+.ProseMirror img{
+  max-height: 500px;
+}
 .ProseMirror img.max-h-500 {
   max-height: 500px;
   width: auto;

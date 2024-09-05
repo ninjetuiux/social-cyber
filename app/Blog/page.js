@@ -10,7 +10,7 @@ const Blog = async (props) => {
     <>
     <div className='w-full flex justify-center overflow-hidden'>
         <div className='max-w-[1536px] justify-center flex flex-col items-center'>
-          <div className='w-full text-right'>
+          <div className='text-right p-4'>
             <h1 className='text-3xl w-full justify-center font-sans mt-10' dir='rtl'>
             <span className='font-serif text-5xl px-2'>SC-Medium</span><br />
             <span className='p-1 text-2xl lg:text-3xl 2xl:text-4xl'>

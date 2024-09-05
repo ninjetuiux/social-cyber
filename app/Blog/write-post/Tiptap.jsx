@@ -1,5 +1,5 @@
 'use client';
-import React, { useCallback, useMemo } from 'react';
+import React, { useCallback, useEffect, useMemo, useState } from 'react';
 import { useEditor, EditorContent } from '@tiptap/react';
 import StarterKit from '@tiptap/starter-kit';
 import Underline from '@tiptap/extension-underline';
@@ -20,6 +20,7 @@ import Youtube from '@tiptap/extension-youtube';
 // USER SESSION IMPORT
 import { useSession } from 'next-auth/react';
 import ListItem from '@tiptap/extension-list-item';
+import ChooseCat from './ChooseCat';
 
 const generateSlug = (title) => {
   return title
@@ -31,6 +32,31 @@ const generateSlug = (title) => {
 
 const Tiptap = ({ initialContent, onSave }) => {
   const { data: session } = useSession();
+  const [selectedCategory, setSelectedCategory] = useState('');
+  const [categories, setCategories] = useState([]);
+
+  useEffect(() => {
+    // Fetch categories from your API
+    const fetchCategories = async () => {
+      try {
+        const response = await fetch('/api/get-categories');
+        const data = await response.json();
+        console.log('Fetched categories:', data); // Debugging: log fetched data
+        setCategories(data);
+      } catch (error) {
+        console.error('Error fetching categories:', error);
+      }
+    };
+
+    fetchCategories();
+  }, []);
+
+  const noopStorage = {
+    getItem: () => null,
+    setItem: () => {},
+    removeItem: () => {},
+  };
+
   const extensions = useMemo(() => {
     const exts = [
       StarterKit.configure({
@@ -81,25 +107,27 @@ const Tiptap = ({ initialContent, onSave }) => {
         allowFullscreen: true,
         ccLanguage: 'he',
         loop: false,
-        enableIFrameApi: true,
         inline: true,
-        controls: false,
+        controls: true,
         nocookie: true,
+        modestBranding: true,
         HTMLAttributes: {
           class: 'youtube-video',
         },
+        storage: noopStorage,
       }),
 
       Color.configure({ types: [TextStyle.name] }),
       Image.configure({
         inline: true,
         allowBase64: true,
+        height: '300px',
         HTMLAttributes: {
           class: 'max-h-500',
         },
       }),
       Placeholder.configure({
-        placeholder: 'Write something...',
+        placeholder: 'ספר לנו מה אתה חושב...',
       }),
       // TitleNode,
       // DocumentWithTitle,
@@ -127,10 +155,12 @@ const Tiptap = ({ initialContent, onSave }) => {
 
   const handleSave = useCallback( async() => {
     console.log('session instance: ', session);
+    console.log('selected category: ', selectedCategory);
     if (editor && session?.user) {
       const title = editor.getHTML().match(/<h1>(.*?)<\/h1>/)?.[1] || '';
       const content = editor.getJSON();
       const desc = editor.getHTML();
+      console.log('selected category: ', selectedCategory);
       // onSave(content);
       const response = await fetch('/api/create-post', {
         method: 'POST',
@@ -143,6 +173,7 @@ const Tiptap = ({ initialContent, onSave }) => {
           views: 0, 
           userEmail: session?.user?.email,
           authorName: session?.user?.name,
+          catSlug: selectedCategory,
         }),
       });
       if (response.ok) {
@@ -152,7 +183,7 @@ const Tiptap = ({ initialContent, onSave }) => {
         console.error('Failed to save post');
       }
     }
-  }, [editor, session, onSave]);
+  }, [editor, session, onSave, selectedCategory]);
 
 
   return (
@@ -161,6 +192,10 @@ const Tiptap = ({ initialContent, onSave }) => {
         <div className='min-w-[1000px] w-full h-32 flex overflow-y-hidden mb-4 pb-4'>
           <MenuBar editor={editor} />
         </div>
+        <ChooseCat
+          categories={categories} 
+          selectedCategory={selectedCategory} 
+          onCategoryChange={setSelectedCategory} />
         {editor ? (
           <>
           <div className='w-full py-4'>
@@ -175,7 +210,7 @@ const Tiptap = ({ initialContent, onSave }) => {
           </div>
           </>
         ) : (
-          <div>Loading editor...</div>
+          <div>טוען את הכתבן...</div>
         )}
       </div>
     </div>

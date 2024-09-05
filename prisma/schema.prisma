@@ -99,14 +99,24 @@ model Post {
   desc      String    @db.String
   img       String?
   views     Int       @default(0)
-  catSlug   String?
+  PostViews PostView[]
+  catSlug   String
   cat       Category?  @relation(fields: [catSlug], references: [slug])
   userEmail String
   user      User     @relation(fields: [userEmail], references: [email])
   comments  Comment[]
   authorName String
 }
+model PostView {
+  id        String   @id @default(cuid()) @map("_id")
+  postId    String
+  ip        String
+  cookie    String?
+  createdAt DateTime @default(now())
+  post      Post     @relation(fields: [postId], references: [id])
 
+  @@index([postId, ip, cookie, createdAt])
+}
 model Comment {
   id        String   @id @default(cuid()) @map("_id")
   createdAt DateTime @default(now())

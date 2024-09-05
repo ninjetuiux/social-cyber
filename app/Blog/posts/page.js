@@ -41,34 +41,35 @@ export default async function PostsPage(props) {
     const posts = data
     console.log('posts: ', posts)
     return (
-        <div className='w-[100dvw] flex-col flex px-8 my-5 overflow-hidden' dir='rtl'>
+        <div className='w-[100dvw] flex-col justify-center flex px-8 my-5 overflow-hidden' dir='rtl'>
         <div className='flex flex-col flex-1 max-w[1536px]'>
             <div className='flex justify-center w-full items-center'>
                 <h1 className='text-3xl font-sans mb-5'>פוסטים מומלצים</h1>
                 {/* <h2>{page}</h2> */}
             </div>
-            <div className='flex-col md:flex-row flex w-full flex-grow justify-between flex-[0.7]'>
-                <div dir='rtl' className='flex flex-col gap-5 w-full bg-gray-50 p-2 mx-2'>
-                {posts?.map((post) => ( 
-                    <PostCard
-                    key={post.id}
-                    post={post}
+            <div className='flex-col md:flex-row flex w-full flex-grow justify-center flex-[0.7]'>
+                <div className="max-w-[1536px] flex flex-col lg:flex-row ">
+                    <div dir='rtl' className='flex flex-col gap-5 w-full bg-gray-50 p-2 mx-2'>
+                    {posts?.map((post) => ( 
+                        <PostCard
+                        key={post.id}
+                        post={post}
+                        />
+                    ))}
+                    <Pagination 
+                        page={page} 
+                        totalPages={totalPages} 
+                        hasNextPage={hasNextPage} 
+                        totalPosts={totalPosts}
                     />
-                ))}
-                <Pagination 
-                    page={page} 
-                    totalPages={totalPages} 
-                    hasNextPage={hasNextPage} 
-                    totalPosts={totalPosts}
-                />
-                </div>
-                <div className='flex flex-[0.3] w-full'>
-                    <div className='flex flex-col w-full'>
-                        <div>
-                            <span className='text-gray-400 text-sm'>מה חדש?</span>
-                            <h2 className='text-xl font-sans'>פוסטים טרנדיים</h2>
+                    </div>
+                    <div className='flex flex-[0.3]'>
+                        <div className='flex flex-col w-full'>
+                            <div>
+                                <span className='text-gray-400 text-sm'>מה חדש?</span>
+                            </div>
+                            <PopularPosts />
                         </div>
-                        <PopularPosts />
                     </div>
                 </div>
             </div>

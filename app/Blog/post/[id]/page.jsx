@@ -1,14 +1,21 @@
+'use server'
 import prisma from "@/app/utils/connect";
 import Image from "next/image";
 import PopularPosts from "../../components/PopularPosts/PopularPosts";
 import CommentForm from "./CommentForm";
 import CommentList from "./CommentList";
-
+import { handleViewCount } from "./utils/ViewCounter";
 
 
 export default async function SinglePost({ params }) {
     const { id } = params; // Extract ID from params
-
+    
+    const viewCount = await handleViewCount();
+   // Fetch the post data from the database (implementation not shown)
+   
+   // Debugging: Check the received headers in the component
+   console.log('Received X-View-Count:', viewCount);
+//    console.log('Document Cookies:', document.cookie);  // Check if 'viewedPosts' or 'testCookie' is set
     // Fetch the post data from the database
     const post = await prisma.post.findUnique({
         where: { id: id },
@@ -28,8 +35,7 @@ export default async function SinglePost({ params }) {
     if (!post) {
         return <div>Post not found</div>;
     }
-    console.log('single post data:', post)
-    // Render the post data
+
 
         // Function to extract the first image from the post content
         const getFirstImage = (content) => {
@@ -59,16 +65,16 @@ export default async function SinglePost({ params }) {
             return { __html: htmlContent };
         };
     return (
-        <div className="flex flex-col gap-5 w-full py-10 px-5" dir='rtl'>
+        <div className="flex flex-col gap-5 w-full py-10 px-5 justify-center items-center" dir='rtl'>
             <div className="flex w-full justify-center">
-                <div className="flex w-full">
+                <div className="flex w-full max-w-[1536px] items-center justify-center">
                     {firstImageUrl ? (
                         <Image 
                             src={firstImageUrl} 
                             alt='single-post-image' 
                             width={550} 
                             height={400} 
-                            className="object-cover"
+                            className="object-cover max-h-[400px] rounded-xl"
                         />
                     ) : (
                         <div className="w-[550px] h-[400px] bg-gray-200 flex items-center justify-center">
@@ -80,10 +86,10 @@ export default async function SinglePost({ params }) {
                     <div className="text-5xl">
                         <h1>{post.title}</h1>
                     </div>
-                    <div className="flex gap-3 justify-between w-full">
+                    <div className="flex gap-5 justify-between items-center">
                         <div className="flex gap-3">
                             <div className="w-[50px]">
-                                <img src='https://avatar.iran.liara.run/public' alt="" />
+                                <Image src='https://avatar.iran.liara.run/public' alt="" width={50} height={50} />
                             </div>
                             <div className="flex flex-col-reverse text-sm justify-center">
                                 <span>{post.authorName}</span>
@@ -91,9 +97,7 @@ export default async function SinglePost({ params }) {
                             </div>    
                         </div>
                         <div className="text-xs text-center w-full flex flex-col gap-2">
-                            <span>
-                                צפיות בפוסט זה: {post.views}
-                            </span>
+                            <div>צפיות: {viewCount}</div> {/* Display unique viewers count */}
                             <span>
                                 קטגוריה: {post.catSlug}
                             </span>
@@ -101,7 +105,7 @@ export default async function SinglePost({ params }) {
                     </div>
                 </div>
             </div>
-            <div className="flex gap-5">
+            <div className="flex gap-5 max-w-[1536px] justify-center">
                     <div className="bg-gray-100 p-3 flex">
                         <PopularPosts />
                     </div>

@@ -15,7 +15,7 @@ const WritePostPage = () => {
     }, [status, router]);
 
     if (status === "loading") {
-        return <div>loading...</div>
+        return <div>טוען...</div>
     }
 
     return (

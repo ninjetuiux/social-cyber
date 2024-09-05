@@ -49,7 +49,7 @@ const PostCard = ({post}) => {
 
   const { excerpt, imageUrl } = getExcerptAndImage(post.content);
       // Log the extracted image URL for debugging
-  console.log('Extracted image URL:', imageUrl);
+//   console.log('Extracted image URL:', imageUrl);
 
   return (
       <div dir='rtl' className='flex flex-col overflow-hidden w-full justify-start'>

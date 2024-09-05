@@ -74,10 +74,7 @@ const FeaturedPosts = () => {
                 </div>
                 <div className='flex flex-[0.3] w-full'>
                     <div className='flex flex-col w-full'>
-                        <div>
-                            <span className='text-gray-400 text-sm'>מה חדש?</span>
-                            <h2 className='text-xl font-sans'>פוסטים טרנדיים</h2>
-                        </div>
+
                         <PopularPosts />
                     </div>
                 </div>
