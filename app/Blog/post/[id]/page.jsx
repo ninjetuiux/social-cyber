@@ -66,7 +66,7 @@ export default async function SinglePost({ params }) {
         };
     return (
         <div className="flex flex-col gap-5 w-full py-10 px-5 justify-center items-center" dir='rtl'>
-            <div className="flex w-full justify-center">
+            <div className="flex flex-col lg:flex-row w-full justify-center">
                 <div className="flex w-full max-w-[1536px] items-center justify-center">
                     {firstImageUrl ? (
                         <Image 
@@ -82,8 +82,8 @@ export default async function SinglePost({ params }) {
                         </div>
                     )}
                 </div>
-                <div className="flex flex-col items-start justify-around w-full">
-                    <div className="text-5xl">
+                <div className="flex flex-col lg:items-start items-center justify-around w-full">
+                    <div className="lg:text-5xl text-2xl py-5 lg:py-0">
                         <h1>{post.title}</h1>
                     </div>
                     <div className="flex gap-5 justify-between items-center">
@@ -105,14 +105,16 @@ export default async function SinglePost({ params }) {
                     </div>
                 </div>
             </div>
-            <div className="flex gap-5 max-w-[1536px] justify-center">
-                    <div className="bg-gray-100 p-3 flex">
+            <div className="flex flex-col gap-5 max-w-[1536px] w-full justify-center">
+                <div className="flex gap-5 w-full">
+                    <div className="bg-gray-100 p-3 hidden lg:flex">
                         <PopularPosts />
                     </div>
+                    <div className="bg-gray-50 p-5 "  dangerouslySetInnerHTML={createMarkup(post.desc)} />
+                </div>
                     <div className="flex flex-col gap-5 w-full">
-                        <div className="bg-gray-50 p-5"  dangerouslySetInnerHTML={createMarkup(post.desc)} />
                         <div className="bg-gray-50 items-center flex rounded-xl">
-                            <div className="flex w-full justify-between flex-1 rounded-xl">
+                            <div className="flex lg:justify-between flex-1 rounded-xl">
                                 <CommentForm postId={post.id} />
                             </div>
                         </div>

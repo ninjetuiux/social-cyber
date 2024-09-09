@@ -119,6 +119,8 @@ const Tiptap = ({ initialContent, onSave }) => {
 
       Color.configure({ types: [TextStyle.name] }),
       Image.configure({
+        width: 500,
+        height: 500,
         inline: true,
         allowBase64: true,
         height: '300px',

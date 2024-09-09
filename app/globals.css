@@ -141,6 +141,7 @@
 }
 .ProseMirror img.max-h-500 {
   max-height: 500px;
+  max-width: 800px;
   width: auto;
   object-fit: contain;
 }
@@ -286,12 +287,19 @@
   .hero-video-container {
     @apply max-h-[800px] max-w-[1200px];
   }
+  .max-h-500 {
+    @apply max-w-[600px]
+  }
+
 }
 
 /* xl breakpoint (screens 1280px and up) */
 @media (min-width: 1280px) and (max-width: 1535px) {
   .hero-video-container {
     @apply w-[90%]; 
+  }
+  .max-h-500 {
+    @apply max-w-[600px]
   }
 }
 
@@ -320,7 +328,9 @@
   .hero-video-container {
     @apply min-w-[400px] px-4 h-[450px] !important;
   }
-
+  .youtube-video {
+    @apply max-w-full 
+  }
   .overlay h1 {
     @apply text-3xl; 
   }

@@ -39,12 +39,14 @@ const nextConfig = {
         protocol: 'https',
         hostname: 'img.youtube.com',
       },
+      {
+        protocol: 'https',
+        hostname: 'platform-lookaside.fbsbx.com',
+      },
     ],
   },
   sitemap: {
     hostname: 'https://social-cyber.co.il', // Updated hostname
-
-
     // Exclude specific paths or file types
     exclude: [
       '/private/*',

@@ -42,7 +42,7 @@ export default async function PostsPage(props) {
     console.log('posts: ', posts)
     return (
         <div className='w-[100dvw] flex-col justify-center flex px-8 my-5 overflow-hidden' dir='rtl'>
-        <div className='flex flex-col flex-1 max-w[1536px]'>
+        <div className='flex flex-col flex-1 max-w-[1536px]'>
             <div className='flex justify-center w-full items-center'>
                 <h1 className='text-3xl font-sans mb-5'>פוסטים מומלצים</h1>
                 {/* <h2>{page}</h2> */}

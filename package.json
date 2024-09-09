@@ -38,6 +38,7 @@
     "@tiptap/react": "^2.6.4",
     "@tiptap/starter-kit": "^2.6.4",
     "@vis.gl/react-google-maps": "^1.1.0",
+    "bcrypt": "^5.1.1",
     "db": "file:src/generated/client",
     "firebase": "^10.13.0",
     "gsap": "^3.12.5",
@@ -62,6 +63,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@types/bcrypt": "^5.0.2",
     "@types/react-scroll": "^1.8.10",
     "eslint": "^8",
     "eslint-config-next": "14.2.5",
